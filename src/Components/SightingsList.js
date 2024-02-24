@@ -14,6 +14,27 @@ export default function SightingsList() {
   const stateQuery = searchParams.get("state") || "";
   const yearQuery = searchParams.get("year") || "";
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const query = {};
+  //       if (stateQuery) {
+  //         query.state = stateQuery;
+  //       }
+  //       if (yearQuery) {
+  //         query.year = yearQuery;
+  //       }
+  //       const { data } = await axios.get(`${BACKEND_URL}/sightings`, {
+  //         params: query,
+  //       });
+  //       setSightings(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [stateQuery, yearQuery]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,8 +59,8 @@ export default function SightingsList() {
   console.log(sightings);
 
   const newSightings = sightings.map((sighting, index) =>
-    sighting.YEAR && sighting.STATE ? (
-      <Link to={`./${sighting.REPORT_NUMBER}`} key={index}>
+    sighting.date && sighting.location ? (
+      <Link to={`./${sighting.id}`} key={index}>
         <Container
           sx={{
             display: "flex",
@@ -49,7 +70,7 @@ export default function SightingsList() {
           <Card sx={{ marginBottom: 3, width: 300 }}>
             <CardContent sx={{ display: "flex", justifyContent: "flex-start" }}>
               <p>
-                {index + 1}. {sighting.STATE} {sighting.YEAR}
+                {index + 1}. {sighting.date} {sighting.location}
               </p>
             </CardContent>
           </Card>

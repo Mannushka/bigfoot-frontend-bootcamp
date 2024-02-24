@@ -7,21 +7,19 @@ import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
 
 export default function SightingPage() {
-  const { REPORT_NUMBER } = useParams();
+  const { id } = useParams();
   const [sighting, setSighting] = useState();
   useEffect(() => {
     const fetchSightingData = async () => {
       try {
-        const data = await axios.get(
-          `${BACKEND_URL}/sightings/${REPORT_NUMBER}`
-        );
+        const data = await axios.get(`${BACKEND_URL}/sightings/${id}`);
         setSighting(data.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchSightingData();
-  }, [REPORT_NUMBER]);
+  }, [id]);
 
   const newSighting = sighting ? (
     <Card
@@ -36,17 +34,15 @@ export default function SightingPage() {
       }}
     >
       <CardContent>
-        <h4>
+        {/* <h4>
           {sighting.STATE} {sighting.YEAR}
         </h4>
-        <p>Season: {sighting.SEASON}</p>
-        <p>
-          Date: {sighting.MONTH} {sighting.DATE}{" "}
-        </p>
-        <p>County: {sighting.COUNTY}</p>
-        <p>Location: {sighting.LOCATION_DETAILS}</p>
-        <p>{sighting.OBSERVED}</p>
-        <p>Report number: {sighting.REPORT_NUMBER}</p>
+        <p>Season: {sighting.SEASON}</p> */}
+        <p>Date: {sighting.date}</p>
+        {/* <p>County: {sighting.COUNTY}</p> */}
+        <p>Location: {sighting.location}</p>
+        <p>{sighting.notes}</p>
+        {/* <p>Report number: {sighting.REPORT_NUMBER}</p> */}
       </CardContent>
     </Card>
   ) : null;
