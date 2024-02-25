@@ -6,19 +6,12 @@ export default function SearchPage(props) {
     e.preventDefault();
     const form = e.target;
     const query = form.search.value;
-
-    if (isNaN(query)) {
-      props.setSearchParams({ state: query });
-    } else {
-      props.setSearchParams({ year: query });
-    }
+    props.setSearchParams({ location: query });
   };
 
   return (
     <div>
-      <p className="query">
-        Make your query either by year or by the name of a US state.{" "}
-      </p>
+      <p className="query">Make your query by location.</p>
       <Container
         sx={{
           display: "flex",
@@ -33,7 +26,6 @@ export default function SearchPage(props) {
             name="search"
             size="35"
             className="input"
-            placeholder="Enter a year/state name"
           ></input>
           <input type="submit" value="Search" className="input"></input>
         </form>
