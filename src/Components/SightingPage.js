@@ -34,15 +34,9 @@ export default function SightingPage() {
       }}
     >
       <CardContent>
-        {/* <h4>
-          {sighting.STATE} {sighting.YEAR}
-        </h4>
-        <p>Season: {sighting.SEASON}</p> */}
         <p>Date: {sighting.date}</p>
-        {/* <p>County: {sighting.COUNTY}</p> */}
         <p>Location: {sighting.location}</p>
         <p>{sighting.notes}</p>
-        {/* <p>Report number: {sighting.REPORT_NUMBER}</p> */}
       </CardContent>
     </Card>
   ) : null;
