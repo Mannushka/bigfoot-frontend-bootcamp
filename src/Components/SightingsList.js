@@ -11,40 +11,16 @@ import SearchPage from "./SearchPage.js";
 export default function SightingsList() {
   const [sightings, setSightings] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const stateQuery = searchParams.get("state") || "";
-  const yearQuery = searchParams.get("year") || "";
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const query = {};
-  //       if (stateQuery) {
-  //         query.state = stateQuery;
-  //       }
-  //       if (yearQuery) {
-  //         query.year = yearQuery;
-  //       }
-  //       const { data } = await axios.get(`${BACKEND_URL}/sightings`, {
-  //         params: query,
-  //       });
-  //       setSightings(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [stateQuery, yearQuery]);
+  const locationQuery = searchParams.get("location") || "";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const query = {};
-        if (stateQuery) {
-          query.state = stateQuery;
+        if (locationQuery) {
+          query.location = locationQuery;
         }
-        if (yearQuery) {
-          query.year = yearQuery;
-        }
+
         const { data } = await axios.get(`${BACKEND_URL}/sightings`, {
           params: query,
         });
@@ -54,7 +30,7 @@ export default function SightingsList() {
       }
     };
     fetchData();
-  }, [stateQuery, yearQuery]);
+  }, [locationQuery]);
 
   console.log(sightings);
 
