@@ -1,14 +1,7 @@
 import React from "react";
 import bigfoot from "./bigfoot.png";
 import "./App.css";
-import { Button } from "@mui/material";
-import { useNavigate, Link } from "react-router-dom";
-
-function AppWrapper() {
-  const navigate = useNavigate();
-
-  return <App navigate={navigate} />;
-}
+import { Link } from "react-router-dom";
 
 class App extends React.Component {
   handleClick = () => {
@@ -19,6 +12,9 @@ class App extends React.Component {
   linkStyle = {
     textDecoration: "none",
     color: "white",
+    border: "solid",
+    padding: "10px",
+    margin: "20px",
   };
 
   render() {
@@ -27,22 +23,18 @@ class App extends React.Component {
         <header className="App-header">
           <h1>Bigfoot sightings</h1>
           <img src={bigfoot} className="bigfoot" alt="bigfoot" width={400} />
+
           <Link to={"/sightings"} style={this.linkStyle}>
             <h4>Click here to view Bigfoot sightings</h4>
           </Link>
-          <Button
-            variant="standard"
-            sx={{ backgroundColor: "orange" }}
-            onClick={this.handleClick}
-          >
-            View sightings
-          </Button>
+
+          <Link to={"/new"} style={this.linkStyle}>
+            <h4> Click here to add a new sighting</h4>
+          </Link>
         </header>
       </div>
     );
   }
 }
 
-// export default App;
-
-export default AppWrapper;
+export default App;
