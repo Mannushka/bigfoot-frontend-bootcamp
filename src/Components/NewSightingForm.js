@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import GoBackButton from "./GoBackButton.js";
 import Select from "react-select";
 import { Button, TextField } from "@mui/material";
+import "./Styling.css";
 
 export default function NewSightingForm() {
   const [date, setDate] = useState("");
@@ -66,25 +67,11 @@ export default function NewSightingForm() {
   return (
     <div>
       <GoBackButton />
-      <div
-        className="header"
-        style={{
-          display: "flex",
-          // justifyContent: "center",
-          color: "white",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div className="container">
         <h1>Create a new sighting</h1>
-
         <form>
           <h4>Category</h4>
-          <div
-            style={{
-              color: "black",
-            }}
-          >
+          <div className="select-category-field">
             <Select
               isMulti
               options={categoryOptions}
@@ -93,52 +80,52 @@ export default function NewSightingForm() {
             />
           </div>
           <h4>Date</h4>
-          <TextField
-            type="datetime-local"
-            name="date"
-            id="date"
-            value={date}
-            onChange={(event) => setDate(event.target.value)}
-            variant="outlined"
-            style={{ backgroundColor: "white", width: 350 }}
-          />
-          <br />
+          <div className="input-field">
+            <TextField
+              type="datetime-local"
+              name="date"
+              id="date"
+              value={date}
+              onChange={(event) => setDate(event.target.value)}
+              variant="outlined"
+              style={{ width: 350 }}
+            />
+          </div>
+
           <h4>Location</h4>
-          <TextField
-            type="text"
-            name="location"
-            id="location"
-            value={location}
-            onChange={(event) => setLocation(event.target.value)}
-            variant="outlined"
-            style={{ backgroundColor: "white", width: 350 }}
-          />
-          <br />
+          <div className="input-field">
+            <TextField
+              type="text"
+              name="location"
+              id="location"
+              value={location}
+              onChange={(event) => setLocation(event.target.value)}
+              variant="outlined"
+              style={{ width: 350 }}
+            />
+          </div>
           <h4>Notes:</h4>
-          <TextField
-            type="text"
-            name="notes"
-            id="notes"
-            value={notes}
-            onChange={(event) => setNotes(event.target.value)}
-            variant="outlined"
-            style={{ backgroundColor: "white", width: 350 }}
-          />
-          <br />
-          <Button
-            variant="contained"
-            type="submit"
-            onClick={handleSubmit}
-            style={{
-              marginTop: 30,
-              display: "flex",
-              justifyContent: "center",
-              backgroundColor: "orange",
-              color: "black",
-            }}
-          >
-            Submit
-          </Button>
+          <div className="input-field">
+            <TextField
+              type="text"
+              name="notes"
+              id="notes"
+              value={notes}
+              onChange={(event) => setNotes(event.target.value)}
+              variant="outlined"
+              style={{ width: 350 }}
+            />
+          </div>
+          <div className="button">
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit}
+              sx={{ backgroundColor: "orange", color: "black" }}
+            >
+              Submit
+            </Button>
+          </div>
         </form>
       </div>
     </div>
