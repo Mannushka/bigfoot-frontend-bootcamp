@@ -46,7 +46,7 @@ export default function SightingsList() {
           <Card sx={{ marginBottom: 3, width: 300 }}>
             <CardContent sx={{ display: "flex", justifyContent: "flex-start" }}>
               <p>
-                {index + 1}. {sighting.date} {sighting.location}
+                {sighting.date} {sighting.location}
               </p>
             </CardContent>
           </Card>
