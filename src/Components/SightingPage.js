@@ -11,44 +11,48 @@ import {
   ListItem,
   Divider,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
-// import List from "@mui/material/List";
-// import ListItem from "@mui/material/ListItem";
-// import Divider from "@mui/material/Divider";
-// import ListItemText from "@mui/material/ListItemText";
 
 export default function SightingPage() {
   const { id } = useParams();
   const [sighting, setSighting] = useState();
   const [comments, setComments] = useState();
   const [newComment, setNewComment] = useState("");
+
   useEffect(() => {
-    const fetchSightingData = async () => {
-      try {
-        const data = await axios.get(`${BACKEND_URL}/sightings/${id}`);
-        setSighting(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const fetchComments = async () => {
-      try {
-        const comments = await axios.get(
-          `${BACKEND_URL}/sightings/${id}/comments`
-        );
-        setComments(comments.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchSightingData();
-    fetchComments();
+    if (id) {
+      const fetchSightingData = async () => {
+        try {
+          const data = await axios.get(`${BACKEND_URL}/sightings/${id}`);
+          setSighting(data.data);
+          console.log(data.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      const fetchComments = async () => {
+        try {
+          const comments = await axios.get(
+            `${BACKEND_URL}/sightings/${id}/comments`
+          );
+          setComments(comments.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchSightingData();
+      fetchComments();
+    }
   }, [id]);
 
-  const newSighting = sighting ? (
+  const categoriesData = sighting ? sighting.categories : null;
+
+  const categories = categoriesData && categoriesData.map(({ name }) => name);
+  console.log(categories);
+
+  const newSighting = sighting && (
     <Card
       sx={{
         width: 800,
@@ -61,12 +65,13 @@ export default function SightingPage() {
       }}
     >
       <CardContent>
+        <p>Categories: {categories.join(", ")}</p>
         <p>Date: {sighting.date}</p>
         <p>Location: {sighting.location}</p>
         <p>{sighting.notes}</p>
       </CardContent>
     </Card>
-  ) : null;
+  );
 
   const commentsList =
     comments &&
