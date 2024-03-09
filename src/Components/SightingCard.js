@@ -2,7 +2,6 @@ import React from "react";
 import { Card, CardContent } from "@mui/material";
 
 export default function SightingCard(props) {
-  console.log(props.sighting.date);
   return (
     <div className="sighting-card">
       <Card
