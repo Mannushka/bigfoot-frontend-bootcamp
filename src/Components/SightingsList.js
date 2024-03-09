@@ -37,7 +37,7 @@ export default function SightingsList() {
     sighting.date && sighting.location ? (
       <Link to={`./${sighting.id}`} key={index}>
         <div className="sightings-list-container">
-          <Card sx={{ marginBottom: 3, width: 300 }}>
+          <Card sx={{ width: 300 }}>
             <div className="sighting-preview-card-content">
               <CardContent>
                 <p>{sighting.date}</p>
