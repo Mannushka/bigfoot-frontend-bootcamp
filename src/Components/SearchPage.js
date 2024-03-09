@@ -3,8 +3,7 @@ import React from "react";
 export default function SearchPage(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const query = form.search.value;
+    const query = e.target.search.value;
     props.setSearchParams({ location: query });
   };
 
