@@ -2,17 +2,11 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  TextField,
-  Button,
-  List,
-  ListItem,
-  Divider,
-  ListItemText,
-} from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
 import SightingCard from "./SightingCard";
+import CommentsList from "./CommentsList";
 
 export default function SightingPage() {
   const { id } = useParams();
@@ -52,31 +46,10 @@ export default function SightingPage() {
     categories = categoriesData.map(({ name }) => name);
   }
 
-  console.log(categories);
-  console.log(sighting);
-
   const newSighting = sighting && (
     <SightingCard sighting={sighting} categories={categories} />
   );
-  const commentsList =
-    comments &&
-    comments.map((comment, index) => (
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        <ListItem alignItems="flex-start" key={index}>
-          <ListItemText
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              color: "black",
-            }}
-            primary={comment.createdAt}
-            secondary={<React.Fragment>{comment.content}</React.Fragment>}
-          />
-        </ListItem>
-        <Divider component="li" />
-      </List>
-    ));
+
   const handleNewCommentSubmit = async () => {
     try {
       const commentToSubmit = await axios.post(
@@ -128,7 +101,7 @@ export default function SightingPage() {
             Submit
           </Button>
         </div>
-        {commentsList}
+        <CommentsList comments={comments} />
       </div>
     </div>
   );
