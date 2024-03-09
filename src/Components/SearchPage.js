@@ -1,4 +1,5 @@
 import React from "react";
+import "./Styling.css";
 
 export default function SearchPage(props) {
   const handleSubmit = (e) => {
