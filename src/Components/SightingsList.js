@@ -2,11 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "@mui/material/Card";
-import { CardContent, Container } from "@mui/material";
+import { CardContent } from "@mui/material";
 import { Link, useSearchParams } from "react-router-dom";
 import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
 import SearchPage from "./SearchPage.js";
+import "./Styling.css";
 
 export default function SightingsList() {
   const [sightings, setSightings] = useState([]);
@@ -32,25 +33,19 @@ export default function SightingsList() {
     fetchData();
   }, [locationQuery]);
 
-  console.log(sightings);
-
   const newSightings = sightings.map((sighting, index) =>
     sighting.date && sighting.location ? (
       <Link to={`./${sighting.id}`} key={index}>
-        <Container
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <div className="sightings-list-container">
           <Card sx={{ marginBottom: 3, width: 300 }}>
-            <CardContent sx={{ display: "flex", justifyContent: "flex-start" }}>
-              <p>
-                {sighting.date} {sighting.location}
-              </p>
-            </CardContent>
+            <div className="sighting-preview-card-content">
+              <CardContent>
+                <p>{sighting.date}</p>
+                <p> {sighting.location}</p>
+              </CardContent>
+            </div>
           </Card>
-        </Container>
+        </div>
       </Link>
     ) : null
   );
@@ -58,16 +53,7 @@ export default function SightingsList() {
   return (
     <div>
       <GoBackButton />
-      <Container
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 3,
-          marginBottom: 3,
-        }}
-      >
-        <h1 className="page-title">Bigfoot sightings</h1>
-      </Container>
+      <h1 className="page-title">Bigfoot sightings</h1>
       <SearchPage setSearchParams={setSearchParams} />
       {newSightings}
     </div>
