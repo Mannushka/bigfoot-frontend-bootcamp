@@ -14,8 +14,8 @@ export default function GoBackButton() {
         variant="standard"
         sx={{
           backgroundColor: "orange",
-          marginTop: 1,
-          marginLeft: 1,
+          marginTop: 3,
+          marginLeft: 2,
         }}
         onClick={handleGoBack}
       >
