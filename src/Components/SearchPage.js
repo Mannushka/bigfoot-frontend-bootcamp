@@ -1,5 +1,4 @@
 import React from "react";
-import { Container } from "@mui/material";
 
 export default function SearchPage(props) {
   const handleSubmit = (e) => {
@@ -10,16 +9,11 @@ export default function SearchPage(props) {
   };
 
   return (
-    <div>
-      <p className="query">Make your query by location.</p>
-      <Container
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 3,
-          marginBottom: 3,
-        }}
-      >
+    <div className="query-field-container">
+      <div className="query-header">
+        <p>Make your query by location.</p>
+      </div>
+      <div className="query-form">
         <form onSubmit={handleSubmit}>
           <input
             type="search"
@@ -29,7 +23,7 @@ export default function SearchPage(props) {
           ></input>
           <input type="submit" value="Search" className="input"></input>
         </form>
-      </Container>
+      </div>
     </div>
   );
 }
