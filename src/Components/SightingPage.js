@@ -2,59 +2,107 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, CardContent } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
+import SightingCard from "./SightingCard";
+import CommentsList from "./CommentsList";
 
 export default function SightingPage() {
-  const { REPORT_NUMBER } = useParams();
+  const { id } = useParams();
   const [sighting, setSighting] = useState();
-  useEffect(() => {
-    const fetchSightingData = async () => {
-      try {
-        const data = await axios.get(
-          `${BACKEND_URL}/sightings/${REPORT_NUMBER}`
-        );
-        setSighting(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchSightingData();
-  }, [REPORT_NUMBER]);
+  const [comments, setComments] = useState();
+  const [newComment, setNewComment] = useState("");
 
-  const newSighting = sighting ? (
-    <Card
-      sx={{
-        width: 800,
-        minHeight: 300,
-        display: "flex",
-        justifyContent: "center",
-        marginTop: 20,
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-    >
-      <CardContent>
-        <h4>
-          {sighting.STATE} {sighting.YEAR}
-        </h4>
-        <p>Season: {sighting.SEASON}</p>
-        <p>
-          Date: {sighting.MONTH} {sighting.DATE}{" "}
-        </p>
-        <p>County: {sighting.COUNTY}</p>
-        <p>Location: {sighting.LOCATION_DETAILS}</p>
-        <p>{sighting.OBSERVED}</p>
-        <p>Report number: {sighting.REPORT_NUMBER}</p>
-      </CardContent>
-    </Card>
-  ) : null;
+  useEffect(() => {
+    if (id) {
+      const fetchSightingData = async () => {
+        try {
+          const data = await axios.get(`${BACKEND_URL}/sightings/${id}`);
+          setSighting(data.data);
+          console.log(data.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      const fetchComments = async () => {
+        try {
+          const comments = await axios.get(
+            `${BACKEND_URL}/sightings/${id}/comments`
+          );
+          setComments(comments.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchSightingData();
+      fetchComments();
+    }
+  }, [id]);
+
+  let categories = [];
+  if (sighting) {
+    const categoriesData = sighting.categories;
+    categories = categoriesData.map(({ name }) => name);
+  }
+
+  const newSighting = sighting && (
+    <SightingCard sighting={sighting} categories={categories} />
+  );
+
+  const handleNewCommentSubmit = async () => {
+    try {
+      const commentToSubmit = await axios.post(
+        `${BACKEND_URL}/sightings/${id}/comments`,
+        {
+          content: newComment,
+        }
+      );
+
+      setNewComment("");
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const comments = await axios.get(
+        `${BACKEND_URL}/sightings/${id}/comments`
+      );
+      setComments(comments.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="sighting-page">
       <GoBackButton />
       {newSighting}
+      <div className="container">
+        <h3>Comments:</h3>
+        <div className="input-field">
+          <TextField
+            required
+            id="outlined-required"
+            value={newComment}
+            placeholder="write you comment in here"
+            onChange={(event) => setNewComment(event.target.value)}
+            style={{ width: 350 }}
+          />
+        </div>
+        <div className="button">
+          <Button
+            variant="standard"
+            sx={{
+              backgroundColor: "orange",
+              color: "black",
+            }}
+            onClick={handleNewCommentSubmit}
+          >
+            Submit
+          </Button>
+        </div>
+        <CommentsList comments={comments} />
+      </div>
     </div>
   );
 }
