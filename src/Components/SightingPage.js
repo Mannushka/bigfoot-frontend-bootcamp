@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  Card,
-  CardContent,
   TextField,
   Button,
   List,
@@ -14,6 +12,7 @@ import {
 } from "@mui/material";
 import GoBackButton from "./GoBackButton";
 import { BACKEND_URL } from "../constants.js";
+import SightingCard from "./SightingCard";
 
 export default function SightingPage() {
   const { id } = useParams();
@@ -47,32 +46,18 @@ export default function SightingPage() {
     }
   }, [id]);
 
-  const categoriesData = sighting ? sighting.categories : null;
+  let categories = [];
+  if (sighting) {
+    const categoriesData = sighting.categories;
+    categories = categoriesData.map(({ name }) => name);
+  }
 
-  const categories = categoriesData && categoriesData.map(({ name }) => name);
   console.log(categories);
+  console.log(sighting);
 
   const newSighting = sighting && (
-    <Card
-      sx={{
-        width: 800,
-        minHeight: 300,
-        display: "flex",
-        justifyContent: "center",
-        marginTop: 20,
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-    >
-      <CardContent>
-        <p>Categories: {categories.join(", ")}</p>
-        <p>Date: {sighting.date}</p>
-        <p>Location: {sighting.location}</p>
-        <p>{sighting.notes}</p>
-      </CardContent>
-    </Card>
+    <SightingCard sighting={sighting} categories={categories} />
   );
-
   const commentsList =
     comments &&
     comments.map((comment, index) => (
@@ -81,9 +66,9 @@ export default function SightingPage() {
           <ListItemText
             sx={{
               display: "flex",
-              // justifyContent: "center",
               flexDirection: "column",
               alignItems: "center",
+              color: "black",
             }}
             primary={comment.createdAt}
             secondary={<React.Fragment>{comment.content}</React.Fragment>}
@@ -114,48 +99,35 @@ export default function SightingPage() {
       console.log(error);
     }
   };
+
   return (
     <div className="sighting-page">
       <GoBackButton />
       {newSighting}
-      <div
-        className="comments"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <h3
-          style={{
-            color: "white",
-          }}
-        >
-          Comments:
-        </h3>
-        <TextField
-          required
-          id="outlined-required"
-          value={newComment}
-          placeholder="write you comment in here"
-          style={{
-            backgroundColor: "white",
-            width: "300px",
-          }}
-          onChange={(event) => setNewComment(event.target.value)}
-        />
-        <Button
-          variant="standard"
-          sx={{
-            backgroundColor: "orange",
-            marginTop: 1,
-            marginBottom: 3,
-          }}
-          onClick={handleNewCommentSubmit}
-        >
-          Submit
-        </Button>
+      <div className="container">
+        <h3>Comments:</h3>
+        <div className="input-field">
+          <TextField
+            required
+            id="outlined-required"
+            value={newComment}
+            placeholder="write you comment in here"
+            onChange={(event) => setNewComment(event.target.value)}
+            style={{ width: 350 }}
+          />
+        </div>
+        <div className="button">
+          <Button
+            variant="standard"
+            sx={{
+              backgroundColor: "orange",
+              color: "black",
+            }}
+            onClick={handleNewCommentSubmit}
+          >
+            Submit
+          </Button>
+        </div>
         {commentsList}
       </div>
     </div>

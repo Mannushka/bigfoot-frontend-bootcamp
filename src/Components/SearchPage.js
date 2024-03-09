@@ -8,7 +8,7 @@ export default function SearchPage(props) {
   };
 
   return (
-    <div className="query-field-container">
+    <div className="container">
       <div className="query-header">
         <p>Make your query by location.</p>
       </div>
